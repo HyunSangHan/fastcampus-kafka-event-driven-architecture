@@ -1,0 +1,7 @@
+plugins {
+	id 'java-library'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch:3.2.0'
+}

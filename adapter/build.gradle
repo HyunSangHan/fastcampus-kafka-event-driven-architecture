@@ -1,0 +1,9 @@
+subprojects {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter:3.2.0'
+
+        implementation(project(":common"))
+        implementation(project(":domain"))
+        implementation(project(":usecase:core"))
+    }
+}
