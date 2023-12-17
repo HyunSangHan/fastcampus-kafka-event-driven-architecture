@@ -84,18 +84,18 @@ services:
     container_name: external-server
     ports:
       - "8088:8080"
-#  mysql:
-#    image: 'mysql:8.0.35'
-#    container_name: mysql
-#    ports:
-#      - "3306:3306"
-#    environment:
-#      - MYSQL_ROOT_PASSWORD=1234
-#      - MYSQL_DATABASE=campus
-#      - MYSQL_USER=myuser
-#      - MYSQL_PASSWORD=mypassword
-#    volumes:
-#      - ./.data/mysql:/var/lib/mysql
+  mysql:
+    image: 'mysql:8.0.35'
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=campus
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+    volumes:
+      - ./.data/mysql:/var/lib/mysql
 #  mongodb:
 #    image: 'mongo:7.0.3'
 #    container_name: mongodb
