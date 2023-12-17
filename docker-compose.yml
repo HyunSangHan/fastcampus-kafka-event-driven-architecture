@@ -79,66 +79,81 @@ services:
       - kafka1
       - kafka2
       - kafka3
-  external-server:
-    image: 'gustkd3/fastcampus-kafka-2-2-ugc'
-    container_name: external-server
-    ports:
-      - "8088:8080"
-  mysql:
-    image: 'mysql:8.0.35'
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=campus
-      - MYSQL_USER=myuser
-      - MYSQL_PASSWORD=mypassword
-    volumes:
-      - ./.data/mysql:/var/lib/mysql
-  mongodb:
-    image: 'mongo:7.0.3'
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=rootuser
-      - MONGO_INITDB_ROOT_PASSWORD=1234
-      - MONGO_INITDB_DATABASE=campus
-    volumes:
-      - ./.data/mongodb:/data/db
-  redis:
-    image: 'redis:6.0.20'
-    container_name: redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - ./.data/redis:/data
-  elasticsearch:
-    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.10.2'
-    container_name: elasticsearch
-    environment:
-      - discovery.type=single-node
-      - TZ=Asia/Seoul
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - ./.data/elasticsearch:/usr/share/elasticsearch/data
-  kibana:
-    image: 'docker.elastic.co/kibana/kibana:7.10.2'
-    container_name: kibana
-    environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
+#  external-server:
+#    image: 'gustkd3/fastcampus-kafka-2-2-ugc'
+#    container_name: external-server
+#    ports:
+#      - "8088:8080"
+#  mysql:
+#    image: 'mysql:8.0.35'
+#    container_name: mysql
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=1234
+#      - MYSQL_DATABASE=campus
+#      - MYSQL_USER=myuser
+#      - MYSQL_PASSWORD=mypassword
+#    volumes:
+#      - ./.data/mysql:/var/lib/mysql
+#  mongodb:
+#    image: 'mongo:7.0.3'
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      - MONGO_INITDB_ROOT_USERNAME=rootuser
+#      - MONGO_INITDB_ROOT_PASSWORD=1234
+#      - MONGO_INITDB_DATABASE=campus
+#    volumes:
+#      - ./.data/mongodb:/data/db
+#  redis:
+#    image: 'redis:6.0.20'
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - ./.data/redis:/data
+#  elasticsearch:
+#    image: 'docker.elastic.co/elasticsearch/elasticsearch:7.10.2'
+#    container_name: elasticsearch
+#    environment:
+#      - discovery.type=single-node
+#      - TZ=Asia/Seoul
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
+#    volumes:
+#      - ./.data/elasticsearch:/usr/share/elasticsearch/data
+#  kibana:
+#    image: 'docker.elastic.co/kibana/kibana:7.10.2'
+#    container_name: kibana
+#    environment:
+#      ELASTICSEARCH_URL: http://elasticsearch:9200
+#      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+#    ports:
+#      - "5601:5601"
+#    depends_on:
+#      - elasticsearch
+#  filebeat:
+#    image: 'docker.elastic.co/beats/filebeat:7.10.2'
+#    container_name: filebeat
+#    volumes:
+#      - ./.data/tomcat/logs:/usr/share/filebeat/logs
+#    depends_on:
+#      - logstash
+#      - zookeeper
+#      - kafka1
+#      - kafka2
+#      - kafka3
 #  logstash:
 #    image: 'docker.elastic.co/logstash/logstash:7.10.2'
 #    container_name: logstash
+#    ports:
+#      - "5044:5044"
 #    depends_on:
 #      - elasticsearch
-#    volumes:
-#      - ./logstash/config:/usr/share/logstash/config
+#      - zookeeper
+#      - kafka1
+#      - kafka2
+#      - kafka3
