@@ -24,8 +24,8 @@ _site/
 activemq-data
 bin
 build
-!/**/src/**/bin
-!/**/src/**/build
+!/src/**/bin
+!/src/**/build
 build.log
 dependency-reduced-pom.xml
 dump.rdb
