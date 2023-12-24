@@ -1,6 +1,7 @@
 package com.fastcampus.kafkahandson.ugc.chatgpt;
 
 import com.fastcampus.kafkahandson.ugc.CustomObjectMapper;
+import com.fastcampus.kafkahandson.ugc.chatgpt.model.ChatCompletionResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -29,7 +30,7 @@ public class ChatGptClient {
     private final CustomObjectMapper objectMapper = new CustomObjectMapper();
 
     public String testChatGpt(String content) {
-        return chatGptWebClient
+        String jsonString = chatGptWebClient
             .post()
             .uri("/v1/chat/completions")
             .header("Authorization", "Bearer " + openaiApiKey) // OpenAI API 키 추가
@@ -45,5 +46,11 @@ public class ChatGptClient {
             .retrieve()
             .bodyToMono(String.class)
             .block();
+        try {
+            ChatCompletionResponse response = objectMapper.readValue(jsonString, ChatCompletionResponse.class);
+            return response.getChoices()[0].getMessage().getContent();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
