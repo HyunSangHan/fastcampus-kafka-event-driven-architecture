@@ -79,11 +79,11 @@ services:
       - kafka1
       - kafka2
       - kafka3
-#  external-server:
-#    image: 'gustkd3/fastcampus-kafka-2-2-ugc'
-#    container_name: external-server
-#    ports:
-#      - "8088:8080"
+  external-server:
+    image: 'gustkd3/fastcampus-kafka-2-2-ugc'
+    container_name: external-server
+    ports:
+      - "8088:8080"
 #  mysql:
 #    image: 'mysql:8.0.35'
 #    container_name: mysql
