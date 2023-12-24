@@ -2,6 +2,7 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":domain"))
 
+    implementation(project(":usecase:core"))
     implementation(project(":usecase:inspected-post-usecase"))
 
     implementation(project(":adapter:kafka"))
