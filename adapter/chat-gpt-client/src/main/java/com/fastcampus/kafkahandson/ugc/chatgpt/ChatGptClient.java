@@ -2,6 +2,7 @@ package com.fastcampus.kafkahandson.ugc.chatgpt;
 
 import com.fastcampus.kafkahandson.ugc.CustomObjectMapper;
 import com.fastcampus.kafkahandson.ugc.chatgpt.model.ChatCompletionResponse;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -29,7 +30,10 @@ public class ChatGptClient {
 
     private final CustomObjectMapper objectMapper = new CustomObjectMapper();
 
-    public String testChatGpt(String content) {
+    public String getResultForContentWithPolicy(
+        String content,
+        ChatPolicy chatPolicy
+    ) {
         String jsonString = chatGptWebClient
             .post()
             .uri("/v1/chat/completions")
@@ -38,7 +42,9 @@ public class ChatGptClient {
             .bodyValue(Map.of(
                 "model", TARGET_GPT_MODEL,
                 "messages", List.of(
-                    Map.of("role", "system", "content", "You are an assistant."),
+                    Map.of("role", "system", "content", chatPolicy.instruction),
+                    Map.of("role", "user", "content", chatPolicy.exampleContent),
+                    Map.of("role", "assistant", "content", chatPolicy.exampleInspectionResult),
                     Map.of("role", "user", "content", content)
                 ),
                 "stream", false
@@ -52,5 +58,12 @@ public class ChatGptClient {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Data
+    public static class ChatPolicy {
+        private final String instruction;
+        private final String exampleContent;
+        private final String exampleInspectionResult;
     }
 }
