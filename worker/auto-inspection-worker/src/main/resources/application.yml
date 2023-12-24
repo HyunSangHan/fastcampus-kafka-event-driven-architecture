@@ -1,2 +1,10 @@
 server:
   port: 8082
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+
+external-server:
+  metadata:
+    url: http://localhost:8088
