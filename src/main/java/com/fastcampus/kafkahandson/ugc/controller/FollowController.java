@@ -38,6 +38,14 @@ public class FollowController {
         if (followerIds == null) {
             return ResponseEntity.ok().body(List.of());
         }
+        if (Math.random() < 0.2) { // 20% 확률로 1초 지연 후 500 응답
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return ResponseEntity.internalServerError().build();
+        }
         return ResponseEntity.ok().body(followerIds.stream().sorted().toList());
     }
 }
