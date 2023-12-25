@@ -96,17 +96,17 @@ services:
       - MYSQL_PASSWORD=mypassword
     volumes:
       - ./.data/mysql:/var/lib/mysql
-#  mongodb:
-#    image: 'mongo:7.0.3'
-#    container_name: mongodb
-#    ports:
-#      - "27017:27017"
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=rootuser
-#      - MONGO_INITDB_ROOT_PASSWORD=1234
-#      - MONGO_INITDB_DATABASE=campus
-#    volumes:
-#      - ./.data/mongodb:/data/db
+  mongodb:
+    image: 'mongo:7.0.3'
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=rootuser
+      - MONGO_INITDB_ROOT_PASSWORD=1234
+      - MONGO_INITDB_DATABASE=campus
+    volumes:
+      - ./.data/mongodb:/data/db
 #  redis:
 #    image: 'redis:6.0.20'
 #    container_name: redis
