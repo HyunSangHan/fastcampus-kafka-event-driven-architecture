@@ -8,5 +8,6 @@ dependencies {
     implementation(project(":adapter:kafka"))
     implementation(project(":adapter:mysql"))
     implementation(project(":adapter:mongodb"))
+    implementation(project(":adapter:redis"))
     implementation(project(":adapter:metadata-client"))
 }
