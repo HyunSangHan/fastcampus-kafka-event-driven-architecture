@@ -11,7 +11,9 @@ spring:
         format_sql: true
   kafka:
     bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
-
+  data:
+    mongodb:
+        uri: mongodb://rootuser:1234@localhost:27017/campus?authSource=admin
 external-server:
   metadata:
     url: http://localhost:8088

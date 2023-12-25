@@ -8,9 +8,11 @@ dependencies {
 
     implementation(project(":usecase:post-usecase"))
     implementation(project(":usecase:inspected-post-usecase"))
+    implementation(project(":usecase:subscribing-post-usecase"))
 
-    implementation(project(":adapter:mysql"))
     implementation(project(":adapter:kafka"))
+    implementation(project(":adapter:mysql"))
+    implementation(project(":adapter:mongodb"))
     implementation(project(":adapter:metadata-client"))
     implementation(project(":adapter:chat-gpt-client"))
 }
