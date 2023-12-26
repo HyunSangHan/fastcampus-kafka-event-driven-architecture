@@ -8,7 +8,12 @@ import com.fastcampus.kafkahandson.ugc.post.model.ResolvedPost;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -32,8 +37,31 @@ public class PostResolvingHelpService implements PostResolvingHelpUsecase {
     }
 
     @Override
-    public List<ResolvedPost> resolvePostsByIds(List<Long> postIds) { // TODO: 임시이므로 수정 필요
-        return postIds.stream().map(this::resolvePostById).toList();
+    public List<ResolvedPost> resolvePostsByIds(List<Long> postIds) {
+        if (postIds == null || postIds.isEmpty()) {
+            return List.of();
+        }
+        List<ResolvedPost> resolvedPostCaches = new ArrayList<>();
+        resolvedPostCaches.addAll(resolvedPostCachePort.multiGet(postIds));
+        List<Long> missingPostIds = postIds.stream()
+            .filter(postId -> resolvedPostCaches.stream().noneMatch(resolvedPost -> resolvedPost.getId().equals(postId)))
+            .toList();
+
+        List<Post> missingPosts = postPort.listByIds(missingPostIds);
+        List<ResolvedPost> missingResolvedPosts = missingPosts.stream()
+            .map(this::resolvePost)
+            .filter(Objects::nonNull)
+            .toList();
+        resolvedPostCaches.addAll(missingResolvedPosts);
+
+        // postIds를 기준으로 resolvedPostCaches를 매핑하는 Map 생성
+        Map<Long, ResolvedPost> resolvedPostMap = resolvedPostCaches.stream()
+            .collect(Collectors.toMap(ResolvedPost::getId, Function.identity()));
+
+        return postIds.stream()
+            .map(resolvedPostMap::get)
+            .filter(Objects::nonNull)
+            .toList();
     }
 
     @Override
