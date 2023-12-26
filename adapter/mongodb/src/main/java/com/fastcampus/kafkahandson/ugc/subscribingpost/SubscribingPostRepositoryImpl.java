@@ -30,4 +30,11 @@ public class SubscribingPostRepositoryImpl implements SubscribingPostCustomRepos
         System.out.println(query);
         return mongoTemplate.find(query, SubscribingPostDocument.class, "subscribingInboxPosts");
     }
+
+    @Override
+    public void deleteAllByPostId(Long postId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("postId").is(postId));
+        mongoTemplate.remove(query, SubscribingPostDocument.class);
+    }
 }
