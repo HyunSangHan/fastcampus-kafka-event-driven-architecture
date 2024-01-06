@@ -1,2 +1,23 @@
 server:
   port: 8084
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/campus?serverTimezone=Asia/Seoul
+    username: myuser
+    password: mypassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9093,localhost:9094
+  data:
+    elasticsearch:
+      host: localhost
+      port: 9200
+external-server:
+  metadata:
+    url: http://localhost:8088
