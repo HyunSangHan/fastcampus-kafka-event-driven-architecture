@@ -3,13 +3,24 @@ package com.fastcampus.kafkahandson.ugc.postsearch;
 import com.fastcampus.kafkahandson.ugc.inspectedpost.model.InspectedPost;
 import com.fastcampus.kafkahandson.ugc.port.PostSearchPort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.*;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
 public class PostSearchAdapter implements PostSearchPort {
+
+    private final ElasticsearchOperations elasticsearchOperations;
 
     private final PostSearchRepository postSearchRepository;
 
@@ -21,6 +32,31 @@ public class PostSearchAdapter implements PostSearchPort {
     @Override
     public void deletePost(Long id) {
         postSearchRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Long> searchPostIdsByKeyword(String keyword, int pageNumber, int pageSize) {
+        if (keyword == null || keyword.isBlank() || pageNumber < 0 || pageSize < 0) {
+            return Collections.emptyList();
+        }
+
+        Query query = buildSearchQuery(keyword, pageNumber, pageSize);
+        SearchHits<PostDocument> search = elasticsearchOperations.search(query, PostDocument.class);
+
+        return search.getSearchHits().stream()
+            .map(SearchHit::getContent)
+            .map(PostDocument::getId)
+            .toList();
+    }
+
+    private Query buildSearchQuery(String keyword, int pageNumber, int pageSize) {
+        Criteria criteria = new Criteria("title").contains(keyword)
+            .or(new Criteria("content").contains(keyword))
+            .or(new Criteria("categoryName").is(keyword))
+            .or(new Criteria("tags").is(keyword));
+
+        return new CriteriaQuery(criteria)
+            .setPageable(PageRequest.of(pageNumber, pageSize));
     }
 
     private PostDocument toDocument(InspectedPost post) {

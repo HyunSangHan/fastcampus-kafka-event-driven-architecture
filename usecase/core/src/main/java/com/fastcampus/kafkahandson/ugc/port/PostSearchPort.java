@@ -9,4 +9,5 @@ public interface PostSearchPort {
 
     void indexPost(InspectedPost post);
     void deletePost(Long id);
+    List<Long> searchPostIdsByKeyword(String keyword, int pageNumber, int pageSize);
 }
