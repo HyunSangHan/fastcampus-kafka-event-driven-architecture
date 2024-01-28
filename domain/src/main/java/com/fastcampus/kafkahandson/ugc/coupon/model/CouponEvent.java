@@ -1,5 +1,6 @@
 package com.fastcampus.kafkahandson.ugc.coupon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ public class CouponEvent {
     private LocalDateTime expiresAt; // coupon 만료 일시
     private Long issueLimit; // coupon 발급 제한 수
 
+    @JsonIgnore
     public boolean isExpired() {
         return this.expiresAt.isBefore(LocalDateTime.now());
     }
