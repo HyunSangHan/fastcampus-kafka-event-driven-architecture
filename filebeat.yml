@@ -1,0 +1,14 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /usr/share/filebeat/logs/*.log
+
+output.kafka:
+  hosts: ["kafka1:19092", "kafka2:19092", "kafka3:19092"]
+  topic: "access-log"
+  partition.round_robin:
+    reachable_only: true
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
