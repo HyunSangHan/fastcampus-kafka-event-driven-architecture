@@ -17,15 +17,6 @@ public class CouponEventAdapter implements CouponEventPort {
         if (couponEventEntity == null) {
             return null;
         }
-        return toModel(couponEventEntity);
-    }
-
-    private CouponEvent toModel(CouponEventEntity couponEventEntity) {
-        return new CouponEvent(
-            couponEventEntity.getId(),
-            couponEventEntity.getDisplayName(),
-            couponEventEntity.getExpiresAt(),
-            couponEventEntity.getIssueLimit()
-        );
+        return CouponEntityConverter.toCouponEventModel(couponEventEntity);
     }
 }

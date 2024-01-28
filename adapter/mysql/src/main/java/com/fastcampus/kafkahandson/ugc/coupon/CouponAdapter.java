@@ -13,27 +13,7 @@ public class CouponAdapter implements CouponPort {
 
     @Override
     public Coupon save(Coupon coupon) {
-        CouponEntity couponEntity = couponJpaRepository.save(toEntity(coupon));
-        return toModel(couponEntity);
-    }
-
-    private CouponEntity toEntity(Coupon coupon) {
-        return new CouponEntity(
-            coupon.getId(),
-            coupon.getUserId(),
-            coupon.getCouponEventId(),
-            coupon.getIssuedAt(),
-            coupon.getUsedAt()
-        );
-    }
-
-    private Coupon toModel(CouponEntity couponEntity) {
-        return new Coupon(
-            couponEntity.getId(),
-            couponEntity.getUserId(),
-            couponEntity.getCouponEventId(),
-            couponEntity.getIssuedAt(),
-            couponEntity.getUsedAt()
-        );
+        CouponEntity couponEntity = couponJpaRepository.save(CouponEntityConverter.toCouponEntity(coupon));
+        return CouponEntityConverter.toCouponModel(couponEntity);
     }
 }
