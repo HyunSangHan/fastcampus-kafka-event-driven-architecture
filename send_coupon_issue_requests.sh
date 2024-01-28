@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# chmod +x send_coupon_issue_requests.sh
+# ./send_coupon_issue_requests.sh
+
 # API 엔드포인트를 변수로 설정
 API_ENDPOINT="http://localhost:8080/coupons"
 
