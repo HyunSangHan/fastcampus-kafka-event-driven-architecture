@@ -2,6 +2,7 @@ package com.fastcampus.kafkahandson.ugc.coupon;
 
 import com.fastcampus.kafkahandson.ugc.coupon.model.Coupon;
 import com.fastcampus.kafkahandson.ugc.coupon.model.CouponEvent;
+import com.fastcampus.kafkahandson.ugc.coupon.model.ResolvedCoupon;
 
 public class CouponEntityConverter {
 
@@ -11,7 +12,8 @@ public class CouponEntityConverter {
             coupon.getUserId(),
             coupon.getCouponEventId(),
             coupon.getIssuedAt(),
-            coupon.getUsedAt()
+            coupon.getUsedAt(),
+            null
         );
     }
 
@@ -31,6 +33,13 @@ public class CouponEntityConverter {
             couponEventEntity.getDisplayName(),
             couponEventEntity.getExpiresAt(),
             couponEventEntity.getIssueLimit()
+        );
+    }
+
+    public static ResolvedCoupon toResolvedCouponModel(CouponEntity couponEntity) {
+        return new ResolvedCoupon(
+            toCouponModel(couponEntity),
+            toCouponEventModel(couponEntity.getCouponEvent())
         );
     }
 }
