@@ -140,6 +140,8 @@ services:
     container_name: filebeat
     volumes:
       - ./.data/tomcat/logs:/usr/share/filebeat/logs
+      - ./.data/filebeat/data:/usr/share/filebeat/data
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml
     depends_on:
       - logstash
       - zookeeper
