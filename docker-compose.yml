@@ -148,14 +148,14 @@ services:
       - kafka1
       - kafka2
       - kafka3
-#  logstash:
-#    image: 'docker.elastic.co/logstash/logstash:7.10.2'
-#    container_name: logstash
-#    ports:
-#      - "5044:5044"
-#    depends_on:
-#      - elasticsearch
-#      - zookeeper
-#      - kafka1
-#      - kafka2
-#      - kafka3
+  logstash:
+    image: 'docker.elastic.co/logstash/logstash:7.10.2'
+    container_name: logstash
+    ports:
+      - "5044:5044"
+    depends_on:
+      - elasticsearch
+      - zookeeper
+      - kafka1
+      - kafka2
+      - kafka3
